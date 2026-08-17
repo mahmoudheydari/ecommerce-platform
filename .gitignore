@@ -1,0 +1,64 @@
+# ============================
+# Gradle
+# ============================
+.gradle/
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+.kotlin
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+
+### VS Code ###
+.vscode/
+
+# ============================
+# OS files
+# ============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================
+# Logs & Temporary
+# ============================
+*.log
+logs/
+tmp/
+temp/
+
+# ============================
+# Environment & Secrets
+# ============================
+.env
+.env.*
+*.env
+application-local.yml
+application-secret.yml
+**/application-local.yml
+
+# ============================
+# Compiled files
+# ============================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# ============================
+# Test & Coverage
+# ============================
+coverage/
+.jacoco/
+*.exec
