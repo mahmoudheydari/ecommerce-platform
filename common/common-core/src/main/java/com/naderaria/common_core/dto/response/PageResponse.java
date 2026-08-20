@@ -1,4 +1,4 @@
-package dto.response;
+package com.naderaria.common_core.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

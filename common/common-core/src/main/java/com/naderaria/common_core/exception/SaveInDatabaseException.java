@@ -1,4 +1,4 @@
-package exception;
+package com.naderaria.common_core.exception;
 
 public final class SaveInDatabaseException extends BusinessException {
 

@@ -1,4 +1,4 @@
-package dto.request;
+package com.naderaria.common_core.dto.request;
 
 public record PaginationDto(
         int pageNumber,
