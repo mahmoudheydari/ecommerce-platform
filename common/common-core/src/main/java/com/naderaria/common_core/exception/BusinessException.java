@@ -1,6 +1,6 @@
-package exception;
+package com.naderaria.common_core.exception;
 
-import dto.response.ErrorResponse;
+import com.naderaria.common_core.dto.response.ErrorResponse;
 
 import java.time.LocalDateTime;
 

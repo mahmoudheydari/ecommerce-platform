@@ -1,4 +1,4 @@
-package dto.response;
+package com.naderaria.common_core.dto.response;
 
 public record ApiResponse<T>(String messageCode, T data) {
 
