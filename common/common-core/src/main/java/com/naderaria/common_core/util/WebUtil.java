@@ -1,4 +1,4 @@
-package util;
+package com.naderaria.common_core.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
