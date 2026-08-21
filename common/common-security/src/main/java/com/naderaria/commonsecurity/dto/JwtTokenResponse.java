@@ -1,4 +1,4 @@
-package com.naderaria.common_security.dto;
+package com.naderaria.commonsecurity.dto;
 
 import org.springframework.security.core.GrantedAuthority;
 

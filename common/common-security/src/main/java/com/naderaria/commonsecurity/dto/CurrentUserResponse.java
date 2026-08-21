@@ -1,4 +1,4 @@
-package com.naderaria.common_security.dto;
+package com.naderaria.commonsecurity.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +29,8 @@ public class CurrentUserResponse implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public CurrentUserResponse( Long id, String username, String password,boolean accountNonExpired,
-                                boolean accountNonLocked, boolean credentialsNonExpired, boolean enable){
+    public CurrentUserResponse(Long id, String username, String password, boolean accountNonExpired,
+                               boolean accountNonLocked, boolean credentialsNonExpired, boolean enable) {
         setId(id);
         setUsername(username);
         setPassword(password);
