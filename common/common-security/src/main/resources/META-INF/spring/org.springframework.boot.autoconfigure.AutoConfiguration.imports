@@ -7,3 +7,4 @@ com.naderaria.commonsecurity.filter.JwtAuthenticationFilter
 com.naderaria.commonsecurity.filter.EcomPermissionEvaluator
 com.naderaria.commonsecurity.handler.AccessDeniedHandlerImpl
 com.naderaria.commonsecurity.handler.CustomAuthenticationEntryPoint
+com.naderaria.commonsecurity.service.JwtServiceImpl
