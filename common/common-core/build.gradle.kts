@@ -2,6 +2,9 @@ plugins {
     `java-library`
 }
 
+group = "com.naderaria.ecommerce"
+version = "0.0.1-SNAPSHOT"
+
 dependencies {
     api("org.springframework.boot:spring-boot-starter-validation:4.1.0")
     api("com.fasterxml.jackson.core:jackson-annotations:2.18.3")
