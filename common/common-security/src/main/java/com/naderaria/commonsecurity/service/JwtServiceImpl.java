@@ -32,7 +32,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateRefreshToken(CurrentUserResponse currentUserResponse) {
-        return "REFRESH_" + generateToken(extractClaims(currentUserResponse), currentUserResponse.getUsername(), jwtProperties.refreshTokeExpiration(), jwtProperties.refreshSigningKey());
+        return "REFRESH_" + generateToken(extractClaims(currentUserResponse), currentUserResponse.getUsername(), jwtProperties.refreshTokenExpiration(), jwtProperties.refreshSigningKey());
     }
 
     private Map<String, Object> extractClaims(CurrentUserResponse currentUserResponse) {
