@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: identity
+  profiles:
+    active: dev
+  messages:
+    basename: lang/message
+    encoding: utf-8
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        globally_quoted_identifiers: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        format_sql: true
+debug: true
