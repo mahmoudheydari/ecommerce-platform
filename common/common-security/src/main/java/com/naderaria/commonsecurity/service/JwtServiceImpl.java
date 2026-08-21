@@ -1,8 +1,8 @@
-package com.naderaria.common_security.service;
+package com.naderaria.commonsecurity.service;
 
-import com.naderaria.common_security.config.JwtProperties;
-import com.naderaria.common_security.dto.CurrentUserResponse;
-import com.naderaria.common_security.dto.JwtTokenResponse;
+import com.naderaria.commonsecurity.config.JwtProperties;
+import com.naderaria.commonsecurity.dto.CurrentUserResponse;
+import com.naderaria.commonsecurity.dto.JwtTokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -21,21 +21,21 @@ import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
-public class JwtServiceImpl implements JwtService{
+public class JwtServiceImpl implements JwtService {
 
     private final JwtProperties jwtProperties;
 
     @Override
-    public String generateToken(CurrentUserResponse currentUserResponse){
-        return generateToken(extractClaims(currentUserResponse),currentUserResponse.getUsername(),jwtProperties.accessTokenExpiration());
+    public String generateToken(CurrentUserResponse currentUserResponse) {
+        return generateToken(extractClaims(currentUserResponse), currentUserResponse.getUsername(), jwtProperties.accessTokenExpiration());
     }
 
     @Override
-    public String generateRefreshToken(CurrentUserResponse currentUserResponse){
-        return "REFRESH_" + generateToken(extractClaims(currentUserResponse),currentUserResponse.getUsername(),jwtProperties.refreshTokeExpiration(),jwtProperties.refreshSigningKey());
+    public String generateRefreshToken(CurrentUserResponse currentUserResponse) {
+        return "REFRESH_" + generateToken(extractClaims(currentUserResponse), currentUserResponse.getUsername(), jwtProperties.refreshTokeExpiration(), jwtProperties.refreshSigningKey());
     }
 
-    private Map<String,Object> extractClaims(CurrentUserResponse currentUserResponse){
+    private Map<String, Object> extractClaims(CurrentUserResponse currentUserResponse) {
         List<String> currentUserAuthorities = currentUserResponse.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", currentUserAuthorities);
@@ -99,13 +99,13 @@ public class JwtServiceImpl implements JwtService{
     }
 
     @Override
-    public JwtTokenResponse extractJwtTokenDot(String token){
+    public JwtTokenResponse extractJwtTokenDot(String token) {
         Claims claims = extractClaims(token);
         List<String> authoritiesList = claims.get("authorities", List.class);
         List<SimpleGrantedAuthority> authorities =
                 authoritiesList.stream()
                         .map(SimpleGrantedAuthority::new)
                         .toList();
-        return new JwtTokenResponse(claims.get("id", Long.class),claims.getSubject(),authorities);
+        return new JwtTokenResponse(claims.get("id", Long.class), claims.getSubject(), authorities);
     }
 }

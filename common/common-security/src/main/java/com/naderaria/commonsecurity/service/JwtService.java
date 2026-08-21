@@ -1,7 +1,7 @@
-package com.naderaria.common_security.service;
+package com.naderaria.commonsecurity.service;
 
-import com.naderaria.common_security.dto.CurrentUserResponse;
-import com.naderaria.common_security.dto.JwtTokenResponse;
+import com.naderaria.commonsecurity.dto.CurrentUserResponse;
+import com.naderaria.commonsecurity.dto.JwtTokenResponse;
 
 public interface JwtService {
 
