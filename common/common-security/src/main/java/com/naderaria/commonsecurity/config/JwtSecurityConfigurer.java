@@ -1,7 +1,7 @@
-package com.naderaria.common_security.config;
+package com.naderaria.commonsecurity.config;
 
-import com.naderaria.common_security.filter.JwtAuthenticationFilter;
-import com.naderaria.common_security.filter.JwtConfigurer;
+import com.naderaria.commonsecurity.filter.JwtAuthenticationFilter;
+import com.naderaria.commonsecurity.filter.JwtConfigurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;

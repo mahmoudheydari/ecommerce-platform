@@ -1,7 +1,7 @@
-package com.naderaria.common_security.filter;
+package com.naderaria.commonsecurity.filter;
 
-import com.naderaria.common_security.dto.JwtTokenResponse;
-import com.naderaria.common_security.service.JwtService;
+import com.naderaria.commonsecurity.dto.JwtTokenResponse;
+import com.naderaria.commonsecurity.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,6 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
