@@ -1,6 +1,6 @@
 package com.naderaria.commonsecurity.handler;
 
-import com.naderaria.common_core.dto.response.ErrorResponse;
+import com.naderaria.commoncore.dto.response.ErrorResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

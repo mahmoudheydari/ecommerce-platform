@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecom-identity
+    username: lab_group
+    password: modnit484848
+    driver-class-name: org.postgresql.Driver
+app:
+  jwt:
+    signing-key: AbCdEfGhIjKlMnOpQrStUvWxYz1234567890+AbCdEfGhIjKlmNoPqRsTu
+    refresh-signing-key: AbCdEfGhIjKlMnOpQrStUvWxYz1234567890+AbCdEfGhIjKlmNoPqRsTu
+    access-token-expiration: 900000
+    refresh-token-expiration: 604800000
+server:
+  port: 8080
