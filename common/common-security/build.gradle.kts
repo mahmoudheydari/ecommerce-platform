@@ -7,7 +7,6 @@ version = "0.0.1-SNAPSHOT"
 
 dependencies {
     api("org.springframework:spring-context:7.0.8")
-// api("org.springframework:spring-web")
     api("org.springframework.security:spring-security-core:7.1.0")
     api("org.springframework.security:spring-security-web:7.1.0")
     api("org.springframework.security:spring-security-config:7.1.0")
