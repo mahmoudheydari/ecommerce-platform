@@ -1,7 +1,6 @@
-package com.naderaria.common_security.filter;
+package com.naderaria.commonsecurity.filter;
 
-import com.naderaria.common_security.dto.JwtTokenResponse;
-import lombok.RequiredArgsConstructor;
+import com.naderaria.commonsecurity.dto.JwtTokenResponse;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +11,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @Component
-@RequiredArgsConstructor
 public class EcomPermissionEvaluator implements PermissionEvaluator {
 
     @Override

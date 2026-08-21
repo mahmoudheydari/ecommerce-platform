@@ -1,7 +1,7 @@
-package com.naderaria.common_security.config;
+package com.naderaria.commonsecurity.config;
 
-import com.naderaria.common_security.filter.JwtConfigurer;
-import com.naderaria.common_security.handler.CustomAuthenticationEntryPoint;
+import com.naderaria.commonsecurity.filter.JwtConfigurer;
+import com.naderaria.commonsecurity.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SharedSecurityConfigurerImpl implements SharedSecurityConfigurer{
+public class SharedSecurityConfigurerImpl implements SharedSecurityConfigurer {
 
     private final JwtConfigurer jwtConfigurer;
     private final AccessDeniedHandler accessDeniedHandler;
