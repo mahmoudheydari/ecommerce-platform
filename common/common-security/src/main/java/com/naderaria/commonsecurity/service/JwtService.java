@@ -2,6 +2,7 @@ package com.naderaria.commonsecurity.service;
 
 import com.naderaria.commonsecurity.dto.CurrentUserResponse;
 import com.naderaria.commonsecurity.dto.JwtTokenResponse;
+import io.jsonwebtoken.Claims;
 
 public interface JwtService {
 
@@ -14,5 +15,7 @@ public interface JwtService {
     boolean isTokenValid(String token, String username);
 
     JwtTokenResponse extractJwtTokenDot(String token);
+
+    Claims parseToken(String token);
 
 }
