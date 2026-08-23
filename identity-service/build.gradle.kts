@@ -17,6 +17,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.jsonwebtoken:jjwt-api:0.13.0")
 
 
     runtimeOnly("org.postgresql:postgresql")

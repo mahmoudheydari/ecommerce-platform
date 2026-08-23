@@ -30,9 +30,26 @@ public class JwtServiceImpl implements JwtService {
         return generateToken(extractClaims(currentUserResponse), currentUserResponse.getUsername(), jwtProperties.accessTokenExpiration());
     }
 
+    private String generateToken(Map<String, Object> extraClaims, String username, long expiration) {
+        return generateToken(extraClaims, username, expiration, jwtProperties.signingKey());
+    }
+
     @Override
     public String generateRefreshToken(CurrentUserResponse currentUserResponse) {
         return "REFRESH_" + generateToken(extractClaims(currentUserResponse), currentUserResponse.getUsername(), jwtProperties.refreshTokenExpiration(), jwtProperties.refreshSigningKey());
+    }
+
+    private String generateToken(Map<String, Object> extraClaims, String username, long expiration, String signingKey) {
+        return Jwts
+                .builder()
+                .claims()
+                .add(extraClaims)
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .and()
+                .signWith(getSigningKey(signingKey))
+                .compact();
     }
 
     private Map<String, Object> extractClaims(CurrentUserResponse currentUserResponse) {
@@ -49,39 +66,28 @@ public class JwtServiceImpl implements JwtService {
         return (extractTokenUsername.equals(username)) && !isTokenExpired(token);
     }
 
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
     @Override
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    private String generateToken(Map<String, Object> extraClaims, String username, long expiration) {
-        return generateToken(extraClaims, username, expiration, jwtProperties.signingKey());
-    }
 
-    private String generateToken(Map<String, Object> extraClaims, String username, long expiration, String signingKey) {
-        return Jwts
-                .builder()
-                .claims()
-                .add(extraClaims)
-                .subject(username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .and()
-                .signWith(getSigningKey(signingKey))
-                .compact();
-    }
-
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractClaims(token);
+        return claimsResolver.apply(claims);
     }
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractClaims(token);
-        return claimsResolver.apply(claims);
+    @Override
+    public Claims parseToken(String token) {
+        return extractClaims(token);
     }
 
     private Claims extractClaims(String token) {
