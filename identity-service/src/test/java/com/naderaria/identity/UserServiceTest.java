@@ -34,8 +34,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,9 +70,6 @@ public class UserServiceTest {
 
     @Mock
     private UserRoleRepository userRoleRepository;
-
-    @Mock
-    private JwtProperties jwtProperties;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -108,45 +108,60 @@ public class UserServiceTest {
     void login_shouldGenerateValidJwtToken() {
 
         //Arrange
-        final String correctToken = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BZG1pbiIsIlJPTEVfVXNlciIsIndyaXRlX1Blcm1pc3Npb24iLCJyZWFkX1Blcm1pc3Npb24iLCJ1cGRhdGVfUGVybWlzc2lvbiIsImRlbGV0ZV9QZXJtaXNzaW9uIiwid3JpdGVfUm9sZSIsInJlYWRfUm9sZSIsInVwZGF0ZV9Sb2xlIiwiZGVsZXRlX1JvbGUiLCJ3cml0ZV9Sb2xlUGVybWlzc2lvbiIsInJlYWRfUm9sZVBlcm1pc3Npb24iLCJ1cGRhdGVfUm9sZVBlcm1pc3Npb24iLCJkZWxldGVfUm9sZVBlcm1pc3Npb24iLCJ3cml0ZV9Vc2VyIiwicmVhZF9Vc2VyIiwidXBkYXRlX1VzZXIiLCJkZWxldGVfVXNlciIsIndyaXRlX1VzZXJSb2xlIiwicmVhZF9Vc2VyUm9sZSIsInVwZGF0ZV9Vc2VyUm9sZSIsImRlbGV0ZV9Vc2VyUm9sZSIsIndyaXRlX0NhdGVnb3J5IiwicmVhZF9DYXRlZ29yeSIsInVwZGF0ZV9DYXRlZ29yeSIsImRlbGV0ZV9DYXRlZ29yeSIsIndyaXRlX0N1cnJlbmN5IiwicmVhZF9DdXJyZW5jeSIsInVwZGF0ZV9DdXJyZW5jeSIsImRlbGV0ZV9DdXJyZW5jeSIsIndyaXRlX0ludmVudG9yeSIsInJlYWRfSW52ZW50b3J5IiwidXBkYXRlX0ludmVudG9yeSIsImRlbGV0ZV9JbnZlbnRvcnkiLCJ3cml0ZV9QcmljZSIsInJlYWRfUHJpY2UiLCJ1cGRhdGVfUHJpY2UiLCJkZWxldGVfUHJpY2UiLCJ3cml0ZV9Qcm9kdWN0IiwicmVhZF9Qcm9kdWN0IiwidXBkYXRlX1Byb2R1Y3QiLCJkZWxldGVfUHJvZHVjdCIsIndyaXRlX1VzZXIiLCJyZWFkX1VzZXIiLCJ1cGRhdGVfVXNlciJdLCJzdWIiOiJhZG1pbiIsImlhdCI6MTc4NzM4MzkxNCwiZXhwIjoxNzg3Mzg0ODE0fQ.u77d-cCu1RNRSUcB6f805AQ3S0J_42bvKbFxkEc152c";
-        final String invalidToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTc4NzM3ODI2MSwiZXhwIjoxNzg3MzgxODYxfQ.cPOykDuoRMmHdEbKNn8A33KUxOepYlJNOUmGRQvwXyw";
-
         ReqLoginDto adminLoginDto = new ReqLoginDto("admin", "modnit");
 
         CurrentUserResponse currentUserResponse = new CurrentUserResponse(1L, "admin", "modnit", true,
                 true, true, true);
 
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_Admin"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("write_Permission"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("read_Permission"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("update_Permission"));
+        grantedAuthorities.add(new SimpleGrantedAuthority("delete_Permission"));
+
+        currentUserResponse.setAuthorities(grantedAuthorities);
+
         Authentication authentication = mock(Authentication.class);
         when(authentication.getPrincipal()).thenReturn(currentUserResponse);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
-        when(jwtService.generateToken(currentUserResponse)).thenReturn(correctToken);
+
+
+        JwtProperties realProps = new JwtProperties(
+                "AbCdEfGhIjKlMnOpQrStUvWxYz1234567890+AbCdEfGhIjKlmNoPqRsTu",  // signingKey
+                "AbCdEfGhIjKlMnOpQrStUvWxYz1234567890+AbCdEfGhIjKlmNoPqRsTu",  // refreshSigningKey
+                900000L,
+                604800000L
+        );
+        JwtServiceImpl realJwtService = new JwtServiceImpl(realProps);
+        String realAccessToken = realJwtService.generateToken(currentUserResponse);
+
+        when(jwtService.generateToken(currentUserResponse)).thenReturn(realAccessToken);
+        when(jwtService.generateRefreshToken(currentUserResponse)).thenReturn("fake-refresh-token");
 
         //Act
         ResTokenDto resTokenDto = userService.login(adminLoginDto);
 
         //Assert
-
         assertNotNull(resTokenDto);
         assertNotNull(resTokenDto.accessToken());
 
         try {
-            String token = resTokenDto.accessToken();
-            JwtProperties realProps = new JwtProperties(
-                    "AbCdEfGhIjKlMnOpQrStUvWxYz1234567890+AbCdEfGhIjKlmNoPqRsTu",  // signingKey
-                    "AbCdEfGhIjKlMnOpQrStUvWxYz1234567890+AbCdEfGhIjKlmNoPqRsTu",  // refreshSigningKey
-                    900000L,
-                    604800000L
-            );
-            JwtServiceImpl realJwtService = new JwtServiceImpl(realProps);
-            Claims claims = realJwtService.parseToken(token);
+            Claims claims = realJwtService.parseToken(resTokenDto.accessToken());
             assertEquals(claims.get("id", Long.class), currentUserResponse.getId());
             assertEquals(claims.getSubject(), currentUserResponse.getUsername());
 
             @SuppressWarnings("unchecked")
             List<String> authorities = claims.get("authorities", List.class);
             assertNotNull(authorities);
-            assertTrue(authorities.contains("ROLE_Admin") || authorities.contains("ROLE_ADMIN"));
+            assertFalse(authorities.isEmpty());
+            assertTrue(authorities.contains("ROLE_Admin") ||
+                    authorities.contains("write_Permission") ||
+                    authorities.contains("read_Permission") ||
+                    authorities.contains("update_Permission") ||
+                    authorities.contains("delete_Permission")
+            );
 
         } catch (Exception e) {
             fail("JWT token invalid: " + e.getMessage());
@@ -221,7 +236,7 @@ public class UserServiceTest {
         );
 
         User mappedUser = new User();
-        mappedUser.setUsername("mahmoud");
+        mappedUser.setUsername("nader");
 
 
         Role userRole = new Role();
