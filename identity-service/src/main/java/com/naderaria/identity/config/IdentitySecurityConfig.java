@@ -1,7 +1,7 @@
 package com.naderaria.identity.config;
 
 import com.naderaria.commonsecurity.config.SharedSecurityConfigurer;
-import com.naderaria.identity.service.CustomUserDetailService;
+import com.naderaria.identity.application.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
