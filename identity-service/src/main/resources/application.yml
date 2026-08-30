@@ -4,10 +4,9 @@ spring:
   profiles:
     active: dev
   jpa:
-    database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     defer-datasource-initialization: true
     properties:
       hibernate:

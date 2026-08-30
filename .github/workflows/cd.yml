@@ -1,0 +1,67 @@
+name: CD Build & Push Images
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/ecommerce-platform
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build project (create jars)
+        run: ./gradlew bootJar -x test --no-daemon
+
+      - name: Log in to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set image tags
+        id: meta
+        run: |
+          SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "sha=${SHA_SHORT}" >> $GITHUB_OUTPUT
+          echo "owner_lc=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      - name: Build & Push identity-service
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: identity-service/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ecommerce-platform-identity:${{ steps.meta.outputs.sha }}
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ecommerce-platform-identity:latest
+
+      - name: Build & Push product-service
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: product-service/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ecommerce-platform-product:${{ steps.meta.outputs.sha }}
+            ghcr.io/${{ steps.meta.outputs.owner_lc }}/ecommerce-platform-product:latest

@@ -1,6 +1,7 @@
 # ============================
 # Gradle
 # ============================
+gradle-cache
 .gradle/
 .gradle
 build/
