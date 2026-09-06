@@ -1,4 +1,4 @@
-package com.naderaria.product.config;
+package com.naderaria.cart.config;
 
 import com.naderaria.commonsecurity.config.SharedSecurityConfigurer;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class ProductSecurityConfig {
+public class CartSecurityConfig {
 
     private final SharedSecurityConfigurer sharedSecurityConfigurer;
 
@@ -23,8 +23,7 @@ public class ProductSecurityConfig {
 
         http.cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/ecom/product/**","/ecom/products","/ecom/category/**",
-                                "/ecom/categories","/ecom/currency/**","/ecom/currenies")
+                        .requestMatchers("/ecom/cart/**")
                         .authenticated());
 
         return http.build();

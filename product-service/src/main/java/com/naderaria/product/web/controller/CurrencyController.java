@@ -21,7 +21,7 @@ public class CurrencyController {
 
     private final CurrencyService currencyService;
 
-    @GetMapping("/currency")
+    @GetMapping("/currenies")
     @PreAuthorize("hasRole('Admin') and hasPermission('Currency','read')")
     public ResponseEntity<PageResponse<ResCurrencyPageItemDto>> getAllCurrencies(
             @RequestParam(name = "pageNumber", defaultValue = "1") int pageNumber,

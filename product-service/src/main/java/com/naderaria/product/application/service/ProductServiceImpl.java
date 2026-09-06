@@ -7,6 +7,7 @@ import com.naderaria.commoncore.exception.ErrorCode;
 import com.naderaria.commondata.util.PageConvertor;
 import com.naderaria.product.application.mapper.ProductMapper;
 import com.naderaria.product.domain.entity.Product;
+import com.naderaria.product.domain.entity.ProductStatusType;
 import com.naderaria.product.domain.repository.ProductRepository;
 import com.naderaria.product.web.dto.intrernal.ProductPriceDto;
 import com.naderaria.product.web.dto.request.ReqProductDto;
@@ -18,6 +19,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +41,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ResProductDto getProduct(long id) {
-        Product product = productRepository.findById(id).orElseThrow(()-> BusinessException.of(ErrorCode.ProductNotFoundException));
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> BusinessException.of(ErrorCode.ProductNotFoundException));
         return productMapper.toResProductDto(product);
     }
 
@@ -52,22 +57,57 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void update(ReqUpdatableProductDto reqUpdatableProductDto) {
-        Product oldProduct = productRepository.findById(reqUpdatableProductDto.id()).orElseThrow(()-> BusinessException.of(ErrorCode.ProductNotFoundException));
+        Product oldProduct = productRepository.findById(reqUpdatableProductDto.id())
+                .orElseThrow(() -> BusinessException.of(ErrorCode.ProductNotFoundException));
         productMapper.update(reqUpdatableProductDto, oldProduct);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
-        Product product = productRepository.findById(id).orElseThrow(()-> BusinessException.of(ErrorCode.ProductNotFoundException));
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> BusinessException.of(ErrorCode.ProductNotFoundException));
         product.unavailableProduct();
     }
 
     @Override
     @Transactional
-    public ProductPriceDto getFinalPrice(Long id){
-        Product product = productRepository.findById(id).orElseThrow(()-> BusinessException.of(ErrorCode.ProductNotFoundException));
-        return new ProductPriceDto(product.getId(),product.getFinalPrice());
+    public ProductPriceDto getFinalPrice(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> BusinessException.of(ErrorCode.ProductNotFoundException));
+        return new ProductPriceDto(product.getId(), product.getFinalPrice());
     }
 
+    @Override
+    @Transactional
+    public void checkProductQuantity(Long productId, Integer quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> BusinessException.of(ErrorCode.ProductNotFoundException));
+        if (!product.isAvailable()) {
+            throw new BusinessException(ErrorCode.NotEnoughInventoryException);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void decreaseProductQuantity(Long productId, Integer quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> BusinessException.of(ErrorCode.ProductNotFoundException));
+        product.decreaseInventory(quantity);
+    }
+
+    @Override
+    @Transactional
+    public void increaseProductQuantity(Long productId, Integer quantity){
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> BusinessException.of(ErrorCode.ProductNotFoundException));
+        product.increaseInventory(quantity);
+    }
+
+    @Override
+    public List<String> getProductStatusTypes(){
+        return Stream.of(ProductStatusType.values())
+                .map(Enum::name)
+                .toList();
+    }
 }

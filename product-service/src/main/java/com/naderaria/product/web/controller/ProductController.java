@@ -14,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ecom")
@@ -22,7 +24,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products")
-    @PreAuthorize("hasRole('Admin') and hasPermission('Product','read')")
+    @PreAuthorize("hasRole('User') and hasPermission('Product','read')")
     public ResponseEntity<PageResponse<ResProductPageItemDto>> getAllProduct(
             @RequestParam(name = "pageNumber", defaultValue = "1") int pageNumber,
             @RequestParam(name = "pageSize", defaultValue = "30") int pageSize,
@@ -34,10 +36,17 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    @PreAuthorize("hasRole('Admin') and hasPermission('Product','read')")
+    @PreAuthorize("hasRole('User') and hasPermission('Product','read')")
     public ResponseEntity<ResProductDto> getProduct(@PathVariable("id") long id) {
         ResProductDto resProductDto = productService.getProduct(id);
         return ResponseEntity.ok(resProductDto);
+    }
+
+    @GetMapping("/product/statusTypes")
+    @PreAuthorize("hasRole('User') and hasPermission('ProductStatusType','read')")
+    public ResponseEntity<List<String>> getProductStatusTypes() {
+        List<String> resProductStatusTypes = productService.getProductStatusTypes();
+        return ResponseEntity.ok(resProductStatusTypes);
     }
 
     @PostMapping("/product")

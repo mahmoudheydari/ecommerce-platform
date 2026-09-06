@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping("/category/{id}")
-    @PreAuthorize("hasRole('Admin') and hasPermission('Category','read')")
+    @PreAuthorize("hasRole('User') and hasPermission('Category','read')")
     public ResponseEntity<ResCategoryDto> getCategory(@PathVariable("id") long id) {
         ResCategoryDto resCategoryDto = categoryService.getCategory(id);
         return ResponseEntity.ok(resCategoryDto);
