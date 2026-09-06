@@ -43,11 +43,11 @@ public class Product extends BaseEntity {
     @Column(name = "status_type")
     private ProductStatusType statusType;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "fk_price")
     private Price price;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "fk_inventory")
     private Inventory inventory;
 
@@ -90,6 +90,10 @@ public class Product extends BaseEntity {
 
     public final void releaseInventory(int quantity) {
         this.inventory.release(quantity);
+    }
+
+    public final boolean isAvailable() {
+        return this.inventory.isAvailable();
     }
 
     public final void unavailableProduct() {

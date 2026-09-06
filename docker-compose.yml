@@ -48,5 +48,20 @@ services:
       - "8082:8080"
     restart: unless-stopped
 
+  cart-service:
+    image: cart-service
+    container_name: cart-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecommerce
+      SPRING_DATASOURCE_USERNAME: ecommerce_user
+      SPRING_DATASOURCE_PASSWORD: ni@#*MO48568
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+    ports:
+      - "8083:8080"
+    restart: unless-stopped
+
 volumes:
   postgres_data:

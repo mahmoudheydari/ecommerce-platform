@@ -102,7 +102,33 @@ values(nextval('prm_seq'),'update','Product','ALL','Permission Update On Product
 insert into tb_permission(id,operation,target_type,target_scope,title)
 values(nextval('prm_seq'),'delete','Product','ALL','Permission Delete On Product Table');
 
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','ProductStatusType','ALL','Permission Write On ProductStatusType');
 
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'write','Cart','ALL','Permission Write On Cart Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','Cart','ALL','Permission Read On Cart Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'update','Cart','ALL','Permission Update On Cart Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'delete','Cart','ALL','Permission Delete On Cart Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'write','CartItem','ALL','Permission Write On CartItem Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','CartItem','ALL','Permission Read On CartItem Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'update','CartItem','ALL','Permission Update On CartItem Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'delete','CartItem','ALL','Permission Delete On CartItem Table');
 
 insert into tb_role_permission(id,fk_role,fk_permission)
 values(nextval('role_per_seq'),1,1);
@@ -206,6 +232,33 @@ insert into tb_role_permission(id,fk_role,fk_permission)
 values(nextval('role_per_seq'),1,39);
 insert into tb_role_permission(id,fk_role,fk_permission)
 values(nextval('role_per_seq'),1,40);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,41);
+
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,42);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,43);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,44);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,45);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,46);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,47);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,48);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,49);
 
 
 ---user
@@ -215,7 +268,33 @@ insert into tb_role_permission(id,fk_role,fk_permission)
 values(nextval('role_per_seq'),2,14);
 insert into tb_role_permission(id,fk_role,fk_permission)
 values(nextval('role_per_seq'),2,15);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,41);
 
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,42);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,43);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,44);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,45);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,46);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,47);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,48);
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),2,49);
 
 insert into tb_contact_info(id,cell_number,email,phone_number)
 values(nextval('cont_seq'),'09359974976','naderaria@gmail.com','09359974976');

@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/ecommerce
+   # url: jdbc:postgresql://postgres:5432/ecommerce
+    url: jdbc:postgresql://localhost:5432/ecom-product
     driver-class-name: org.postgresql.Driver
 app:
   jwt:
@@ -9,4 +10,4 @@ app:
     access-token-expiration: 900000
     refresh-token-expiration: 604800000
 server:
-  port: 8080
+  port: 8081

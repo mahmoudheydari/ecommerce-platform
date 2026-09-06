@@ -1,10 +1,11 @@
 spring:
   datasource:
-    #url: jdbc:postgresql://postgres:5432/ecommerce
-    url: jdbc:postgresql://localhost:5432/ecom-identity
+    url: jdbc:postgresql://postgres:5432/ecommerce
+    #url: jdbc:postgresql://localhost:5432/ecom-cart
     username: lab_group
     password: modnit484848
     driver-class-name: org.postgresql.Driver
+
 app:
   jwt:
     signing-key: AbCdEfGhIjKlMnOpQrStUvWxYz1234567890+AbCdEfGhIjKlmNoPqRsTu
@@ -12,4 +13,7 @@ app:
     access-token-expiration: 900000
     refresh-token-expiration: 604800000
 server:
-  port: 8080
+  port: 8082
+
+product-service:
+   url: http://localhost:8081

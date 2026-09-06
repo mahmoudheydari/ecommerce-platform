@@ -1,4 +1,4 @@
-package com.naderaria.identity.web.controler;
+package com.naderaria.identity.web.controller;
 
 import com.naderaria.commoncore.dto.request.PaginationDto;
 import com.naderaria.commoncore.dto.response.PageResponse;
